@@ -1,10 +1,11 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
-import userController from './controllers/user.controller';
+import userRouter from './controllers/user.controller';
 import dotenv from 'dotenv';
 import { z } from 'zod';
-
+import cors from "cors"
+const morgan = require("morgan");
 const setupRoutes = (app: Express) => {
-    app.use("/user", userController);
+    app.use("/api/user", userRouter);
 };
 
 const validateEnv = () => {
@@ -27,9 +28,12 @@ export const bootstrap = () => {
 
     const app: Express = express();
     const port = process.env.PORT || 3000;
-
+    app.use(cors({
+        origin: "http://localhost:3000",
+        optionsSuccessStatus: 200,
+    }))
     app.use(express.json());
-
+    app.use(morgan("dev"));
     setupRoutes(app);
 
     app.use(errorHandler);
