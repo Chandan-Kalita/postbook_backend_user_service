@@ -4,9 +4,11 @@ import dotenv from 'dotenv';
 import { z } from 'zod';
 import cors from "cors"
 import { listRoutes } from './utils/list_routes';
+import { postsRouter } from './controllers/posts.controller';
 const morgan = require("morgan");
 const setupRoutes = (app: Express) => {
     app.use("/api/user", userRouter);
+    app.use("/api/post", postsRouter);
 };
 
 const validateEnv = () => {

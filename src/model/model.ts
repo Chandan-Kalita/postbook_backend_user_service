@@ -13,3 +13,17 @@ export const ProfileUpdateReq = z.object({
 })
 
 export type TypeProfileUpdateReqModel = z.infer<typeof ProfileUpdateReq>
+
+
+export const PostCreateReq = z.object({
+    content: z.string(),
+})
+
+export type TypePostCreateModel = z.infer<typeof PostCreateReq>
+
+export const PostFindManyReq = z.object({
+    take: z.string(),
+    skip: z.string(),
+})
+
+export type TypePostFindManyModel = z.infer<typeof PostFindManyReq>

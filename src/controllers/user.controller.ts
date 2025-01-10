@@ -3,7 +3,7 @@ import { LoginReq, ProfileUpdateReq, TypeProfileUpdateReqModel } from "../model/
 import { Validation, ReqPayloadType } from "../model/validation"
 import { UserService } from "../service/user.service";
 
-var userRouter = express.Router();
+const userRouter = express.Router();
 
 const userService = new UserService();
 userRouter.post('/login', Validation.validate(LoginReq, ReqPayloadType.BODY), async function (req, res, next) {
