@@ -25,13 +25,13 @@ export class Validation {
         return async function (req: any, res: Response, next: any) {
             if (req.headers.authorization) {
                 const token = req.headers.authorization.split(' ')[1];
-                const user = verifyJwt(token)
                 try {
+                    const user = verifyJwt(token)
                     const dbUser = await new UserService().getUser(user.username)
                     if (!dbUser) {
                         throw new Error("Unauthorized")
                     }
-                    req.user = { username: dbUser.username, id: dbUser.id }
+                    req.user = { username: dbUser.username, id: dbUser.id, name: dbUser.name }
                     next()
                 } catch (error) {
                     res.status(401).send({ message: "Unauthorized" })

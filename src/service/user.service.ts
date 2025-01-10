@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "../config/db"
 import { usersTable } from "../db/schema";
-import { TypeLoginReqModel } from "../model/model"
+import { TypeLoginReqModel, TypeProfileUpdateReqModel } from "../model/model"
 import { comparePassword, hashPassword } from "../utils/password_hash";
 import { genJwt } from "../utils/jwt";
 export class UserService {
@@ -42,13 +42,14 @@ export class UserService {
         return { id: response.id, username: response.username, name: response.name }
     }
 
-    async updateProfile(username: string) {
-        let users = await this.db.select().from(usersTable).where(eq(usersTable.username, username))
+    async updateProfile(id: string, data: TypeProfileUpdateReqModel) {
+        let users = await this.db.select().from(usersTable).where(eq(usersTable.id, id))
         if (users.length === 0) {
             throw new Error("User not found");
         }
-        const response = users[0]
-        return { id: response.id, username: response.username, name: response.name }
+        const user = users[0]
+        const response = await this.db.update(usersTable).set({ name: data.name }).where(eq(usersTable.id, id)).returning();
+        return { id: response[0].id, username: response[0].username, name: response[0].name }
     }
 
     async logout() {

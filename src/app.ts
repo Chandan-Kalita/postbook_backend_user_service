@@ -3,6 +3,7 @@ import userRouter from './controllers/user.controller';
 import dotenv from 'dotenv';
 import { z } from 'zod';
 import cors from "cors"
+import { listRoutes } from './utils/list_routes';
 const morgan = require("morgan");
 const setupRoutes = (app: Express) => {
     app.use("/api/user", userRouter);
@@ -37,7 +38,7 @@ export const bootstrap = () => {
     setupRoutes(app);
 
     app.use(errorHandler);
-
+    // listRoutes(app)
     app.listen(port, () => {
         console.log(`Server is running at http://localhost:${port}`);
     });

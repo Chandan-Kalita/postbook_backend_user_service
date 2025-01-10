@@ -6,3 +6,10 @@ export const LoginReq = z.object({
 })
 
 export type TypeLoginReqModel = z.infer<typeof LoginReq>
+
+
+export const ProfileUpdateReq = z.object({
+    name: z.string(),
+})
+
+export type TypeProfileUpdateReqModel = z.infer<typeof ProfileUpdateReq>
