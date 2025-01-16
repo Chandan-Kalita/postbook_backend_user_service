@@ -19,8 +19,8 @@ postsRouter.post('/create', Validation.authenticate(), Validation.validate(PostC
 
 postsRouter.get('/getAll', Validation.authenticate(), Validation.validate(PostFindManyReq, ReqPayloadType.QUERY), async function (req: any, res, next) {
     try {
-        // const user = req.user;
-        const response = await postsService.getAll(req.query.take, req.query.skip)
+        const user = req.user;
+        const response = await postsService.getAll(req.query.take, req.query.skip, user.id)
         res.status(200).send(response)
     } catch (error) {
         next(error)

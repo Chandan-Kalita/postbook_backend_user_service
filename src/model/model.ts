@@ -21,9 +21,15 @@ export const PostCreateReq = z.object({
 
 export type TypePostCreateModel = z.infer<typeof PostCreateReq>
 
-export const PostFindManyReq = z.object({
+export const PaginationObj = z.object({
     take: z.string(),
     skip: z.string(),
+})
+
+export type TypePaginationObjModel = z.infer<typeof PaginationObj>
+
+
+export const PostFindManyReq = PaginationObj.extend({
 })
 
 export type TypePostFindManyModel = z.infer<typeof PostFindManyReq>

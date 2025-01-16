@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { integer, pgTable, varchar, uuid, text, } from "drizzle-orm/pg-core";
+import { integer, pgTable, varchar, uuid, text, unique, } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
     id: uuid().primaryKey().default(sql`gen_random_uuid()`),
@@ -10,7 +10,6 @@ export const usersTable = pgTable("users", {
 
 export const userRelations = relations(usersTable, ({ many }) => ({
     posts: many(postsTable),
-    following: many(followingTable),
 }))
 
 
@@ -36,7 +35,11 @@ export const followingTable = pgTable("following", {
     user_id: uuid().notNull().references(() => usersTable.id), // user_id is following
     following_id: uuid().notNull().references(() => usersTable.id), // following_id is followed
     created_at: integer().default(sql`extract(epoch from now())`),
-});
+}, (t) => [
+    {
+        un1: unique().on(t.following_id, t.user_id)
+    }
+]);
 
 export const followingRelations = relations(followingTable, ({ one }) => ({
     user: one(usersTable, {
